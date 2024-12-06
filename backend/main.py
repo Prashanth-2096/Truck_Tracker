@@ -17,14 +17,10 @@ db: List[Tracker]=[
         id=UUID("ecb75afb-0441-4c98-acf5-f2dd6e5d5c83"),
         truck_no= "KA01BC5468",
         truck_type= "Open",
-        time_stamp= "18:30:00",  # Valid time format
+        time_stamp= "18:30:00",  
         location= "Bangalore"
     )
 ]
-
-@app.get("/")
-async def root():
-    return {"Hello : Bro"}
 
 @app.get("/Tracker/details")
 async def fetch_Tracker():
