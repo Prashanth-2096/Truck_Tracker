@@ -1,62 +1,72 @@
-from typing import List
-from uuid import UUID, uuid4
-from fastapi import FastAPI, HTTPException
+from typing import List, Annotated
+from uuid import UUID
+from config import settings
+from db.session import engine, SessionLocal
+from db.base_class import Base
+from fastapi import FastAPI, HTTPException, Depends
 from models import Tracker, TrackerUpdateRequest
+from sqlalchemy.orm import Session
 
-app = FastAPI()
 
-db: List[Tracker]=[
-    Tracker(
-        id=UUID("ecb76afb-0441-4c98-acf5-f3dd6e4d5c84"),
-        truck_no= "TN01AB1234",
-        truck_type= "Heavy",
-        time_stamp= "14:30:00",  # Valid time format
-        location= "Delhi"
-    ),
-    Tracker(
-        id=UUID("ecb75afb-0441-4c98-acf5-f2dd6e5d5c83"),
-        truck_no= "KA01BC5468",
-        truck_type= "Open",
-        time_stamp= "18:30:00",  
-        location= "Bangalore"
-    )
-]
+def start_application():
+    app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
+    Base.metadata.create_all(bind=engine)
+    return app
+
+app = start_application()
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+db_dependency = Annotated[Session, Depends(get_db)]
+
 
 @app.get("/Tracker/details")
-async def fetch_Tracker():
-    return db;
+async def fetch_Tracker(db: db_dependency):
+    trackers = db.query(Tracker).all()  
+    return trackers
+
 
 @app.post("/Tracker/details")
-async def register_Tracker(tracker:Tracker):
-    db.append(tracker)
-    return {"id":tracker.id}
+async def register_Tracker(tracker: Tracker, db: db_dependency):
+    db.add(tracker)  
+    db.commit() 
+    db.refresh(tracker)
+    return {"id": tracker.id}
 
-@app.put("/Tracker/details/{tacker_id}")
-async def update_tracker(tracker_update: TrackerUpdateRequest, tracker_id: UUID):
-    for tracker in db:
-        if tracker.id == tracker_id:
-            if tracker_update.truck_no is not None:
-                tracker.truck_no=tracker_update.truck_no
-            if tracker_update.truck_type is not None:
-                tracker.truck_type=tracker_update.truck_type
-            if tracker_update.time_stamp is not None:
-                tracker.time_stamp=tracker_update.time_stamp
-            if tracker_update.location is not None:
-                tracker.location=tracker_update.location
-            return
-    raise HTTPException(
-        status_code=404,
-        detail=f"tracker with id: {tracker_id} does not exist"
-    )
 
-@app.delete("/Tracker/details/{tacker_id}")
-async def delete_tracker(tracker_id: UUID):
-    for tracker in db:
-        if tracker.id == tracker_id:
-            db.remove(tracker)
-            return {"tacker removed"}
-    raise HTTPException(
-        status_code=404,
-        detail=f"tracker with id : {tracker_id} does not exist"
-    )
+@app.put("/Tracker/details/{tracker_id}")
+async def update_tracker(tracker_update: TrackerUpdateRequest, tracker_id: UUID, db: db_dependency):
+    tracker = db.query(Tracker).filter(Tracker.id == tracker_id).first()  # Find the tracker by ID
+    if not tracker:
+        raise HTTPException(status_code=404, detail=f"Tracker with id: {tracker_id} does not exist")
 
+    if tracker_update.truck_no is not None:
+        tracker.truck_no = tracker_update.truck_no
+    if tracker_update.truck_type is not None:
+        tracker.truck_type = tracker_update.truck_type
+    if tracker_update.time_stamp is not None:
+        tracker.time_stamp = tracker_update.time_stamp
+    if tracker_update.location is not None:
+        tracker.location = tracker_update.location
+
+    db.commit() 
+    db.refresh(tracker)
+    return tracker
+
+
+@app.delete("/Tracker/details/{tracker_id}")
+async def delete_tracker(tracker_id: UUID, db: db_dependency):
+    tracker = db.query(Tracker).filter(Tracker.id == tracker_id).first()  
+    if not tracker:
+        raise HTTPException(status_code=404, detail=f"Tracker with id: {tracker_id} does not exist")
+
+    db.delete(tracker)  
+    db.commit() 
+    return {"message": f"Tracker with id {tracker_id} removed successfully"}
