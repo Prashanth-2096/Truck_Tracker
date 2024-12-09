@@ -7,10 +7,7 @@ const Header = ({ onMenuClick }) => {
     <header className="header">
       <div className="header-content">
         <div className="header-left">
-          <button 
-            className="mobile-menu-btn"
-            onClick={onMenuClick}
-          >
+          <button className="mobile-menu-btn" onClick={onMenuClick}>
             <i className="fas fa-bars"></i>
           </button>
           <h1>Truck Tracker</h1>

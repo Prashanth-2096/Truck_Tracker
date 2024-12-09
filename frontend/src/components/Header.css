@@ -1,20 +1,19 @@
 .header {
   background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 1.5rem;
   position: sticky;
   top: 0;
   z-index: 100;
-  width: 100%;
 }
 
 .header-content {
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
+  gap: 2rem;
 }
 
 .header-left {
@@ -26,22 +25,17 @@
 .header-left h1 {
   color: #2c3e50;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .mobile-menu-btn {
   display: none;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #2c3e50;
-  cursor: pointer;
-  padding: 0.5rem;
 }
 
 .desktop-nav {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
 }
 
@@ -52,25 +46,18 @@
   color: #6c757d;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
+  font-size: 0.95rem;
   padding: 0.5rem;
+  transition: color 0.2s;
 }
 
-.nav-link:hover {
-  color: #2c3e50;
-}
-
+.nav-link:hover, 
 .nav-link.active {
   color: #2c3e50;
 }
 
 .nav-link i {
-  font-size: 1.1rem;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
+  font-size: 1rem;
 }
 
 .user-info {
@@ -80,29 +67,50 @@
 }
 
 .notification-icon {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #6c757d;
   cursor: pointer;
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
 }
 
 .user-name {
   color: #2c3e50;
   font-weight: 500;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1024px) {
+  .nav-link span {
+    display: none;
+  }
+  
+  .nav-link i {
+    font-size: 1.2rem;
+  }
+  
+  .desktop-nav {
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 768px) {
   .header {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
   }
 
   .mobile-menu-btn {
     display: block;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 0.25rem;
   }
 
   .desktop-nav {
@@ -110,6 +118,16 @@
   }
 
   .user-name {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-left h1 {
+    font-size: 1.1rem;
+  }
+
+  .notification-icon {
     display: none;
   }
 } 
