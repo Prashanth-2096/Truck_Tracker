@@ -12,7 +12,7 @@ predicted_license_plates = []
   
 for path_to_license_plate in glob.glob(path_for_license_plates, recursive = True): 
       
-    license_plate_file = path_to_license_plate.split("/")[-1] 
+    license_plate_file = path_to_license_plate.split("\\")[-1] 
     license_plate, _ = os.path.splitext(license_plate_file) 
     ''' 
     Here we append the actual license plate to a list 
