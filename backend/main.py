@@ -29,9 +29,9 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 
-@app.get("/truck/{id}")
-async def fetch_tracker(id: int, db: db_dependency):
-    tracker = db.query(Tracker).filter(Tracker.id == id).first()
+@app.get("/truck/{truck_no}")
+async def fetch_tracker(truck_no: str, db: db_dependency):
+    tracker = db.query(Tracker).filter(Tracker.truck_no == truck_no).first()
     if not tracker:
         raise HTTPException(status_code=404, detail="Tracker not found")
     return tracker
@@ -104,9 +104,9 @@ async def fetch_tracker(id: int, db: db_dependency):
 #     return tracker
 
 
-@app.delete("/trackers/{id}")
-async def delete_tracker(id: int, db: db_dependency):
-    tracker = db.query(Tracker).get(id)
+@app.delete("/trackers/{truck_no}")
+async def delete_tracker(truck_no: str, db: db_dependency):
+    tracker = db.query(Tracker).get(truck_no)
     if not tracker:
         raise HTTPException(status_code=404, detail="Tracker not found")
     
