@@ -3,8 +3,9 @@ from os import stat
 from typing import List, Annotated
 from uuid import UUID
 from config import settings
-from db.session import Base,engine, SessionLocal
-from fastapi import FastAPI, HTTPException, Depends,status
+from db.session import Base, engine, SessionLocal
+from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
 from models import Tracker, TrackerUpdateRequest
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
@@ -13,7 +14,17 @@ from sqlalchemy.exc import SQLAlchemyError
 def start_application():
     app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
     Base.metadata.create_all(bind=engine)
+    
+    # Add CORS middleware
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # Allow all origins; restrict as needed
+        allow_credentials=True,
+        allow_methods=["*"],  # Allow all HTTP methods
+        allow_headers=["*"],  # Allow all headers
+    )
     return app
+
 
 app = start_application()
 
@@ -29,6 +40,14 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 
+@app.get("/")
+async def fetch_tracker(db: db_dependency):
+    tracker = db.query(Tracker).all()
+    if not tracker:
+        raise HTTPException(status_code=404, detail="Tracker not found")
+    return tracker
+
+
 @app.get("/truck/{truck_no}")
 async def fetch_tracker(truck_no: str, db: db_dependency):
     tracker = db.query(Tracker).filter(Tracker.truck_no == truck_no).first()
@@ -36,6 +55,16 @@ async def fetch_tracker(truck_no: str, db: db_dependency):
         raise HTTPException(status_code=404, detail="Tracker not found")
     return tracker
 
+
+@app.delete("/trackers/{truck_no}")
+async def delete_tracker(truck_no: str, db: db_dependency):
+    tracker = db.query(Tracker).get(truck_no)
+    if not tracker:
+        raise HTTPException(status_code=404, detail="Tracker not found")
+    
+    db.delete(tracker)
+    db.commit()
+    return {"detail": "Tracker deleted successfully"}
 
 # @app.post("/truck", status_code=status.HTTP_201_CREATED)
 # async def create_tracker(
@@ -103,14 +132,4 @@ async def fetch_tracker(truck_no: str, db: db_dependency):
 #     db.refresh(tracker)
 #     return tracker
 
-
-@app.delete("/trackers/{truck_no}")
-async def delete_tracker(truck_no: str, db: db_dependency):
-    tracker = db.query(Tracker).get(truck_no)
-    if not tracker:
-        raise HTTPException(status_code=404, detail="Tracker not found")
-    
-    db.delete(tracker)
-    db.commit()
-    return {"detail": "Tracker deleted successfully"}
 

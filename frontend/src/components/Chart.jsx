@@ -42,7 +42,7 @@ const Chart = () => {
     return (
       <>
       
-      <div className="graph" style={{ width: '300px', height: '350px' }}>
+      <div className="graph">
         <h3>Time Spent at each Location</h3>
         <Doughnut data={data} options={options} />
       </div>
