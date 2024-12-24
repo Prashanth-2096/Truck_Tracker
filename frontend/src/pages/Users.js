@@ -10,15 +10,16 @@ const Users = () => {
       
       <div className="card">
         <h3 className="card-title">User List</h3>
-        <p>This provides a list of users</p>
+        <p>Provides List of users.</p>
       </div>
       
       <div className="grid-container">
         <div className="card">
           <h3 className="card-title">Active Users</h3>
-          <p>This provides a list of Active Users</p>
+          <p>Provides list of active users.</p>
         </div>
         
+    
       </div>
     </div>
   );

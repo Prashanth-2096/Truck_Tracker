@@ -11,14 +11,14 @@ const Settings = () => {
       <div className="grid-container">
         <div className="card">
           <h3 className="card-title">General Settings</h3>
-          <p> This displays the general settings</p>
+          <p>Provides general settings.</p>
         </div>
-        
         
         <div className="card">
-          <h3 className="card-title">Preferences</h3>
-          <p></p>
+          <h3 className="card-title">Security</h3>
+          <p>Provides Security Options</p>
         </div>
+      
       </div>
     </div>
   );

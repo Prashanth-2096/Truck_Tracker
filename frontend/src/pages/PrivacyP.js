@@ -18,6 +18,5 @@ const PrivacyP = () => {
   );
 };
 
-export default PrivacyP;
 
-    
+export default PrivacyP; 

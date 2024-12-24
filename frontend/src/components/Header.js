@@ -10,7 +10,12 @@ const Header = ({ onMenuClick }) => {
           <button className="mobile-menu-btn" onClick={onMenuClick}>
             <i className="fas fa-bars"></i>
           </button>
-          <h1>Truck Tracker</h1>
+          <NavLink to="/" className="nav-link">
+            <i class="fa-solid fa-truck"></i>
+            <h1>Truck Tracker</h1>
+          </NavLink>
+          {/* <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search"></input> */}
+          
         </div>
 
         <nav className="desktop-nav">
