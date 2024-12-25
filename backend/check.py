@@ -1,6 +1,6 @@
 from detection import detection_call
 license_plate_arr=[]
-arr=[r"C:\Users\PRASHANTH\Desktop\Truck_Tracker\Truck_Tracker\backend\assets\KA152249.jpg"]
+arr=[r"{img_path}"]
      
 for path in arr:
     license_plate = detection_call(path)
