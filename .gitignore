@@ -28,3 +28,6 @@ frontend/build/
 frontend/package-lock.json
 frontend/yarn.lock
 # ----
+
+backend/assets/
+backend/temp/
