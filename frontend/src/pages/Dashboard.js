@@ -2,6 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Chart from '../components/Chart';
 import Map from '../components/Map';
+import PDFDocument from '../components/PDFDocument';
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReactDOM from 'react-dom';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import {
@@ -30,8 +32,9 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [trucks, setTrucks] = useState([]); // State to store all truck data
-  const [selectedTruck, setSelectedTruck] = useState(null); // State to store the selected truck
+  const [trucks, setTrucks] = useState([]); 
+  const [selectedTruck, setSelectedTruck] = useState(null);
+   
 
   // Function to fetch truck data from the API
   const fetchTruckData = async () => {
@@ -91,8 +94,25 @@ const Dashboard = () => {
             <button className="close-button" onClick={() => setSelectedTruck(null)}>
               Close
             </button>
+            <PDFDownloadLink
+              document={<PDFDocument data={selectedTruck} />}
+              fileName="TruckData.pdf"
+              style={{
+                textDecoration: "none",
+                padding: "10px 15px",
+                color: "#fff",
+                backgroundColor: "#007BFF",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              {({ loading }) =>
+                loading ? "Preparing document..." : "Download PDF"
+              }
+            </PDFDownloadLink>
+                
 
-            {/* Placeholder for Chart */}
+            
             <div className="chart-map-container">
               <div id="chart">
                 <Chart />

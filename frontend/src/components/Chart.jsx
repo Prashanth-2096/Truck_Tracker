@@ -1,53 +1,85 @@
 import React from "react";
-import { Doughnut, Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const Chart = () => {
- 
-    const data = {
-      labels: ['Location 1', 'Location 2','Location 3'],
-      datasets: [
-        {
-          label: 'Colors Distribution',
-          data: [12, 12, 12], 
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',  
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',  
-        
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-  
-          ],
-          borderWidth: 1,
-        },
-      ],
-    };
-  
-    const options = {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top',
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-    };
-  
-    return (
-      <>
-      
-      <div className="graph">
-        <h3>Time Spent at each Location</h3>
-        <Doughnut data={data} options={options} />
-      </div>
-      </>
-    );
+  // Sample JSON data
+  const truckData = [
+    {
+      id: 2,
+      time_stamp_enter: "2024-06-02T08:30:00",
+      time_stamp_exit: "2024-06-02T12:30:00",
+      truck_no: "KA01AB1234",
+    },
+    {
+      id: 3,
+      time_stamp_enter: "2024-06-03T07:00:00",
+      time_stamp_exit: "2024-06-03T12:00:00",
+      truck_no: "KA03EF9012",
+    },
+    {
+      id: 4,
+      time_stamp_enter: "2024-06-04T06:00:00",
+      time_stamp_exit: "2024-06-04T13:00:00",
+      truck_no: "KA04GH3456",
+    },
+  ];
+
+  // Function to calculate duration in hours
+  const calculateDuration = (enter, exit) => {
+    const enterTime = new Date(enter);
+    const exitTime = new Date(exit);
+    return (exitTime - enterTime) / (1000 * 60 * 60); // Convert milliseconds to hours
   };
-  
+
+  return (
+    <div>
+      <h2>Individual Truck Duration Graphs</h2>
+      {truckData.map((truck) => {
+        const duration = calculateDuration(truck.time_stamp_enter, truck.time_stamp_exit);
+        const chartData = {
+          labels: ["Duration"],
+          datasets: [
+            {
+              label: `Truck ${truck.truck_no}`,
+              data: [duration],
+              backgroundColor: "rgba(75, 192, 192, 0.6)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+            },
+          ],
+        };
+
+        const options = {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "top",
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Hours",
+              },
+            },
+          },
+        };
+
+        return (
+          <div key={truck.id} style={{ marginBottom: "20px" }}>
+            <h3>{truck.truck_no}</h3>
+            <Bar data={chartData} options={options} />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 export default Chart;
+
