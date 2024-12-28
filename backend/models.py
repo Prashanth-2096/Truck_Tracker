@@ -13,7 +13,14 @@ class Tracker(Base):
     location_exit= Column(String(100), nullable=False)
     time_stamp_enter= Column(DateTime, default=datetime)
     time_stamp_exit= Column(DateTime, default=datetime)
-    print("table created")
+    location_p = Column(DateTime, default=datetime)
+    location_q = Column(DateTime, default=datetime)
+    location_r = Column(DateTime, default=datetime)
+    location_s = Column(DateTime, default=datetime)
+    location_t = Column(DateTime, default=datetime)
+    location_u = Column(DateTime, default=datetime)
+    location_v = Column(DateTime, default=datetime)
+    location_w = Column(DateTime, default=datetime)
 
 
 class TrackerUpdateRequest(Base):
