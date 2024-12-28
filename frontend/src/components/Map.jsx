@@ -1,50 +1,32 @@
 import React from "react";
 
-function Map(){
-    return(
-        <>
-            <div class="container-fluid py-5">
-            
-                <div class="row">
-                <div class="col-lg-12">
-                <h2 id="maph">Map</h2>
-                    <div class="horizontal-timeline">
-                    <ul class="list-inline items">
-                        <li class="list-inline-item items-list">
-                        <div class="px-4">
-                            <div class="event-date badge bg-info">12 Dec</div>
-                            <h5 class="pt-2">Location One</h5>
-                        </div>
-                        </li>
-                        <li class="list-inline-item items-list">
-                        <div class="px-4">
-                            <div class="event-date badge bg-success" >12 Dec</div>
-                            <h5 class="pt-2">Location Two</h5>                            
-                            <div>
-                            
-                            </div>
-                        </div>
-                        </li>
-                        <li class="list-inline-item items-list">
-                        <div class="px-4">
-                            <div class="event-date badge bg-danger">12 Dec</div>
-                            <h5 class="pt-2">Location Three</h5>                
-                            <div>
-                            
-                            </div>
-                        </div>
-                        </li>
-                        
-                    </ul>
 
-                    </div>
+const events = [
+  { label: "Entry Gate", date: "01:28:13" },
+  { label: "Exit Gate", date: "02:05:09" },
+];
 
-                </div>
-                </div>
-
-                </div>
+const Map = () => {
+  return (
+    <>
+    
+    <div className="timeline-container">
+    <h2 id="mapheader">Map</h2>
+      <div className="timeline">
         
-        </>
-    );
-}
+        {events.map((event, index) => (
+          <div key={index} className="timeline-item">
+            <div className="timeline-circle"></div>
+            <div className="timeline-content">
+              <p className="timeline-label">{event.label}</p>
+              <p className="timeline-date">{event.date}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    </>
+  );
+};
+
 export default Map;

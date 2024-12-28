@@ -1,4 +1,5 @@
 import React from 'react';
+import Map from '../components/Map';
 
 const Users = () => {
   return (
@@ -12,6 +13,7 @@ const Users = () => {
         <h3 className="card-title">User List</h3>
         <p>Provides List of users.</p>
       </div>
+      <Map />
       
       <div className="grid-container">
         <div className="card">
