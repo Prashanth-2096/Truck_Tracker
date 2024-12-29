@@ -1,5 +1,3 @@
-from PIL import Image, ImageFilter
-from PIL import ImageDraw
 from paddleocr import PaddleOCR
 import numpy as np
 import cv2
@@ -59,7 +57,7 @@ def crop_license_plate(image_path):
     
 def extract_license_plate(image_path):
 
-    img = Image.open(f"{image_path}")
+    img = cv2.imread(image_path)
 
     cropped_image = crop_license_plate(image_path)
     if cropped_image is None:
@@ -150,17 +148,4 @@ def detection_call(path,count=0):
         print("License plate could not be detected.")
         return None
     
-import os
-import glob
 
-files = os.getcwd() + "\\truck_images/**/*.*"
-LPs = []
-predictedLPs = []
-for file in glob.glob(files, recursive = True):
-    LP = file.split("\\")[-1]
-    LP_only = LP.split(".")[0]
-    LPs.append(LP_only)
-    predicted = detection_call(file)
-    predictedLPs.append(predicted)
-            
-print(LPs, predictedLPs)
