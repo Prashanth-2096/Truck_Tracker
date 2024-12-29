@@ -98,7 +98,7 @@ const Dashboard = () => {
                 <Chart />
             </div>
             <div id="map">
-                <Map />
+              <Map truckData={selectedTruck} />
             </div>
             </div>
           </div>

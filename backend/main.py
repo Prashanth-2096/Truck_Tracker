@@ -66,52 +66,66 @@ async def delete_tracker(truck_no: str, db: db_dependency):
     db.commit()
     return {"detail": "Tracker deleted successfully"}
 
-# @app.post("/truck", status_code=status.HTTP_201_CREATED)
-# async def create_tracker(
-#     truck_no: str,
-#     truck_type: str,
-#     location_enter: str,
-#     location_exit: str,
-#     time_stamp_enter: datetime,
-#     time_stamp_exit: datetime,
-#     db: Session = db_dependency
-# ):
-#     try:
-#         # Validate input data (if needed)
-#         if not all([truck_no, truck_type, location_enter, location_exit]):
-#             raise HTTPException(
-#                 status_code=status.HTTP_400_BAD_REQUEST,
-#                 detail="All fields (truck_no, truck_type, location_enter, location_exit) must be provided."
-#             )
+from pydantic import BaseModel
+from typing import Optional
 
-#         # Manually create the SQLAlchemy object
-#         new_tracker = Tracker(
-#             truck_no=truck_no,
-#             truck_type=truck_type,
-#             location_enter=location_enter,
-#             location_exit=location_exit,
-#             time_stamp_enter=time_stamp_enter,
-#             time_stamp_exit=time_stamp_exit,
-#         )
-        
-#         # Add to DB and commit
-#         db.add(new_tracker)
-#         db.commit()
-#         db.refresh(new_tracker)
+# Pydantic model for request validation
+class TrackerCreateRequest(BaseModel):
+    truck_no: str
+    truck_type: str
+    location_enter: str
+    location_exit: str
+    time_stamp_enter: datetime
+    time_stamp_exit: datetime
+    location_p: Optional[datetime] = None
+    location_q: Optional[datetime] = None
+    location_r: Optional[datetime] = None
+    location_s: Optional[datetime] = None
+    location_t: Optional[datetime] = None
+    location_u: Optional[datetime] = None
+    location_v: Optional[datetime] = None
+    location_w: Optional[datetime] = None
 
-#         return {"message": "Tracker created successfully!", "data": new_tracker}
+@app.post("/truck", status_code=status.HTTP_201_CREATED)
+async def create_tracker(request: TrackerCreateRequest, db: db_dependency):
+    try:
+        # Check if truck_no already exists
+        existing_tracker = db.query(Tracker).filter(Tracker.truck_no == request.truck_no).first()
+        if existing_tracker:
+            raise HTTPException(status_code=400, detail="Tracker with this truck number already exists.")
 
-#     except SQLAlchemyError as e:
-#         db.rollback()  # Rollback the transaction on error
-#         raise HTTPException(
-#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-#             detail=f"Database error occurred: {str(e)}"
-#         )
+        new_id = db.query(Tracker).count() + 1
 
-#     except Exception as e:
-#         raise HTTPException(
-#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-#             detail=f"An unexpected error occurred: {str(e)}"
+        # Create a new Tracker object
+        new_tracker = Tracker(
+            id=new_id,
+            truck_no=request.truck_no,
+            truck_type=request.truck_type,
+            location_enter=request.location_enter,
+            location_exit=request.location_exit,
+            time_stamp_enter=request.time_stamp_enter,
+            time_stamp_exit=request.time_stamp_exit,
+            location_p=request.location_p if request.location_p is not None else None,
+            location_q=request.location_q if request.location_q is not None else None,
+            location_r=request.location_r if request.location_r is not None else None,
+            location_s=request.location_s if request.location_s is not None else None,
+            location_t=request.location_t if request.location_t is not None else None,
+            location_u=request.location_u if request.location_u is not None else None,
+            location_v=request.location_v if request.location_v is not None else None,
+            location_w=request.location_w if request.location_w is not None else None
+        )
+
+        # Add to the session and commit
+        print(new_tracker)
+        db.add(new_tracker)
+        db.commit()
+        db.refresh(new_tracker)
+
+        return new_tracker
+    except SQLAlchemyError as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="An error occurred while creating the tracker.")
+
 #         )
 # @app.put("/")
 # async def update_tracker(tracker_update: TrackerUpdateRequest, tracker_id: UUID, db: db_dependency):
