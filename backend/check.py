@@ -3,9 +3,10 @@ from detection import detection_call
 import uuid
 
 license_plate_arr = []
-arr = [r"C:\Users\PRASHANTH\Desktop\Truck_Tracker\Truck_Tracker\backend\assets\KA152249.jpg"]
+arr = [r"C:\Users\PRASHANTH\Desktop\Truck_Tracker\Truck_Tracker\backend\assets\MH46F4951.jpg"]
 
 url = "http://127.0.0.1:8000/truck"
+uuid_value = uuid.uuid4()
 
 for path in arr:
     license_plate = detection_call(path)
@@ -14,6 +15,7 @@ for path in arr:
 
         # Hardcoded data for the other required fields
         data = {
+            "id":str(uuid_value),
             "truck_no": license_plate,  # Use the detected license plate
             "truck_type": "Tanker",  # Hardcoded value
             "location_enter": "Gate-a",  # Hardcoded value

@@ -6,7 +6,7 @@ from db.session import Base,engine
 
 class Tracker(Base):
     __tablename__ = "truck"
-    id= Column(Integer, primary_key=True, autoincrement=True)
+    id= Column(String(50), primary_key=True)
     truck_no= Column(String(50), nullable=False)
     truck_type= Column(String(50), nullable=False)
     location_enter= Column(String(100), nullable=False)

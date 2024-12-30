@@ -88,7 +88,7 @@ from typing import Optional
 
 # Pydantic model for request validation
 class TrackerCreateRequest(BaseModel):
-    id:Optional[int]
+    id:Optional[str]
     truck_no: str
     truck_type: str
     location_enter: str
@@ -119,14 +119,15 @@ async def create_tracker(request: TrackerCreateRequest, db: db_dependency):
 
         # SQL query to insert data into the 'truck' table
         insert_query = text("""
-        INSERT INTO truck (truck_no, truck_type, location_enter, location_exit, time_stamp_enter, time_stamp_exit, 
+        INSERT INTO truck (id, truck_no, truck_type, location_enter, location_exit, time_stamp_enter, time_stamp_exit, 
                            location_p, location_q, location_r, location_s, location_t, location_u, location_v, location_w) 
-        VALUES (:truck_no, :truck_type, :location_enter, :location_exit, :time_stamp_enter, :time_stamp_exit, 
+        VALUES (:id, :truck_no, :truck_type, :location_enter, :location_exit, :time_stamp_enter, :time_stamp_exit, 
                 :location_p, :location_q, :location_r, :location_s, :location_t, :location_u, :location_v, :location_w)
         """)
 
         # Values to insert
         values = {
+            "id":request.id,
             "truck_no": request.truck_no,
             "truck_type": request.truck_type,
             "location_enter": request.location_enter,
