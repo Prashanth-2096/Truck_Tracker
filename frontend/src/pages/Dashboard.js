@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Chart from '../components/Chart';
+import PDFDocument from '../components/PDFDocument';
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import Map from '../components/Map';
 import ReactDOM from 'react-dom';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
@@ -91,11 +93,20 @@ const Dashboard = () => {
             <button className="close-button" onClick={() => setSelectedTruck(null)}>
               Close
             </button>
+            <PDFDownloadLink
+              document={<PDFDocument selectedTruck={selectedTruck} />}
+              fileName="TruckData.pdf"
+              className="Download-pdf"
+            >
+              {({ loading }) =>
+                loading ? "Preparing document..." : "Download PDF"
+              }
+            </PDFDownloadLink>
 
             {/* Placeholder for Chart */}
             <div className="chart-map-container">
               <div id="chart">
-                <Chart />
+              <Chart truckData={selectedTruck} />
             </div>
             <div id="map">
               <Map truckData={selectedTruck} />

@@ -7,6 +7,8 @@ import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
 import Users from './pages/Users';
 import Settings from './pages/Settings';
+import ContactUs from './pages/ContactUs';
+import PrivacyP from './pages/PrivacyP';
 import './App.css';
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/users" element={<Users />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/privacy" element={<PrivacyP />} />
             </Routes>
           </main>
           <Footer />

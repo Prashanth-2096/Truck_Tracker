@@ -47,7 +47,7 @@
 
 /* Cards */
 .card {
-  background: lightgray;
+  background: #EFF3EA;
   color: black;
   border-radius: 8px;
   padding: 1.25rem;
@@ -120,6 +120,21 @@
   background-color: #296bb0;
 }
 
+
+/* Download pdf  */
+.Download-pdf{
+  background-color: #3386de;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  margin: 4px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 /* Chart and Map Container */
 .chart-map-container {
   height: 400px;
@@ -159,6 +174,9 @@
   border-radius: 8px;
   padding: 5px;
 }
+
+/* Chart  */
+
 
 .location-legend {
   display: flex;

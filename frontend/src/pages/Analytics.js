@@ -10,18 +10,18 @@ const Analytics = () => {
       
       <div className="card">
         <h3 className="card-title">Performance Metrics</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p>This list provides Performance Metrics</p>
       </div>
       
       <div className="grid-container">
         <div className="card">
           <h3 className="card-title">Traffic Analysis</h3>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>This provides the Traffic Analysis</p>
         </div>
         
         <div className="card">
           <h3 className="card-title">User Engagement</h3>
-          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>Provides list of users</p>
         </div>
       </div>
     </div>

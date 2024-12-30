@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Map from '../components/Map';
+import Chart from '../components/Chart';
+
+
+
 
 const Settings = () => {
+  
   return (
     <div className="page-container">
       <div className="page-header">
@@ -11,20 +17,16 @@ const Settings = () => {
       <div className="grid-container">
         <div className="card">
           <h3 className="card-title">General Settings</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Provides general settings.</p>
         </div>
         
         <div className="card">
           <h3 className="card-title">Security</h3>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Provides Security Options</p>
         </div>
-        
-        <div className="card">
-          <h3 className="card-title">Preferences</h3>
-          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        </div>
-      </div>
     </div>
+      
+      </div>
   );
 };
 
