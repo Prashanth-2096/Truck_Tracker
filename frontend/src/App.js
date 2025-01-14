@@ -9,6 +9,7 @@ import Users from './pages/Users';
 import Settings from './pages/Settings';
 import ContactUs from './pages/ContactUs';
 import PrivacyP from './pages/PrivacyP';
+import ImageDetection from './components/ImageDetection';
 import './App.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
               <Route path="/users" element={<Users />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/contact" element={<ContactUs />} />
+              <Route path="/ImageDetection" element={<ImageDetection/>}/>
               <Route path="/privacy" element={<PrivacyP />} />
             </Routes>
           </main>

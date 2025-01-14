@@ -23,6 +23,10 @@ const Header = ({ onMenuClick }) => {
             <i className="fas fa-home"></i>
             Dashboard
           </NavLink>
+          <NavLink to="/ImageDetection" className="nav-link">
+            <i class="fa-solid fa-truck-front"></i>
+            Detection
+          </NavLink>
           <NavLink to="/analytics" className="nav-link">
             <i className="fas fa-chart-bar"></i>
             Analytics
